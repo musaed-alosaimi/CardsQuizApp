@@ -11,10 +11,6 @@ const Stack = createStackNavigator();
 
 class AddDeckComponent extends React.Component{
 
-  state = {
-    DeckTitle: '',
-  }
-
 addDeck = () => {
 
 this.props.dispatch(AddDeck({id: generateId(), title: this.state.DeckTitle}))
@@ -24,20 +20,6 @@ console.log(this.props.storeState)
 }
 
     render(){
-
-    const DeckView = (props) => {
-
-  return <View>
-          <Text style={styles.label}>What is the title of you new deck ?</Text>
-
-
-  <TextInput placeholder="Deck Title" style={styles.textInput} value={this.state.DeckTitle} onChangeText={(text) => this.setState({DeckTitle: text})} />
-
-  <TouchableOpacity title="Add Deck" style={styles.addDeckButton} onPress={this.addDeck} ><Text style={{color:'#fff'}}>Add Deck Button</Text></TouchableOpacity>
-
-  </View>
-
-    }
 
       return <View style={styles.container}>
 
@@ -54,7 +36,30 @@ console.log(this.props.storeState)
   }
 
   }
+  
 
+  class DeckView extends React.Component{
+
+
+    state = {
+      DeckTitle: '',
+    }
+    
+    render(){
+
+    return <View>
+            <Text style={styles.label}>What is the title of you new deck ?</Text>
+  
+  
+    <TextInput placeholder="Deck Title" style={styles.textInput} value={this.state.DeckTitle} onChangeText={(text) => this.setState({DeckTitle: text})} />
+  
+    <TouchableOpacity title="Add Deck" style={styles.addDeckButton} onPress={this.addDeck} ><Text style={{color:'#fff'}}>Add Deck Button</Text></TouchableOpacity>
+  
+    </View>
+
+    }
+  
+      }
 
   const styles = StyleSheet.create({
 

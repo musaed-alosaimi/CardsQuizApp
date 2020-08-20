@@ -1,5 +1,5 @@
 import React from 'react'
-import {View, Text , Button, StyleSheet, FlatList, TouchableOpacity} from 'react-native'
+import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import DetailsComponent from './DetailsComponent'
 import DeckComponent from './DeckComponent'
@@ -8,64 +8,30 @@ import { connect } from 'react-redux'
 
 const Stack = createStackNavigator();
 
-const Deck_Item = (props) => {
+class HomeComponent extends React.Component {
 
+    render() {
 
-    let {item,navigateToDeck} = props
+        let { navigation } = this.props
 
-    return <TouchableOpacity key={item.id} style={styles.Deck_Item} onPress={navigateToDeck}>
-    
-        <Text>{item.title}</Text>
-    
-        </TouchableOpacity>
-    
-    }
+        const navigateToDeck = () => {
 
-    function HomeView({navigation, route}){
+            navigation.navigate('Deck', { title: 'Settings' });
 
-        let {navigateToDeck, decks} = route.params
+        }
 
-        return <View>
+        return <View style={styles.container}>
 
-        <Text>This is Home Screen</Text>
+            <Stack.Navigator>
 
-    <Text>{JSON.stringify(decks)}</Text>
-    
-        {/* <Button onPress={() => navigation.navigate('Details')} title={'Go To Settings'} /> */}
+                <Stack.Screen name="Home" component={HomeView} initialParams={{ navigateToDeck, decks: this.props.storeState.decks }} />
+                <Stack.Screen name="Deck" component={DeckComponent} />
 
-    
-    <FlatList data={decks} renderItem={({item}) => (<Deck_Item  item={item} navigateToDeck={navigateToDeck} />)}  style={styles.DeckList}/>
+            </Stack.Navigator>
 
 
 
-</View>    
-    
-    }
-
-class HomeComponent extends React.Component{
-
-    render(){
-
-        let {navigation} = this.props
-
-    const navigateToDeck = () => {
-
-        navigation.navigate('Deck',{ title: 'Settings' });
-
-    }
-
-    return <View style={styles.container}>
-
-<Stack.Navigator>
-
-    <Stack.Screen name="Home" component={HomeView} initialParams={{navigateToDeck, decks: this.props.storeState.decks}}/>
-    <Stack.Screen name="Deck" component={DeckComponent}  />
-
-</Stack.Navigator>
-
-
-
-      {/* <Stack.Navigator initialRouteName="Home" headerMode="screen" screenOptions={{
+            {/* <Stack.Navigator initialRouteName="Home" headerMode="screen" screenOptions={{
         header: ({ scene, previous, navigation }) => {
   const { options } = scene.descriptor;
   const title =
@@ -92,43 +58,83 @@ class HomeComponent extends React.Component{
       </Stack.Navigator> */}
 
 
-    </View>
+        </View>
 
     }
 
-  } 
-
-  const styles = StyleSheet.create({
-
-        container: {
-
-            fontSize: 24,
-            flex: 1,
+}
 
 
-        },
-
-        DeckList: {
+const Deck_Item = (props) => {
 
 
-        },
+    let { item, navigateToDeck } = props
 
-        Deck_Item: {
-            marginVertical: 10, 
-            padding: 10, 
-            backgroundColor: '#AAA', 
-            borderColor: '#000', 
-            borderWidth: 1, 
-            borderStyle: 'solid', }
+    return <TouchableOpacity key={item.id} style={styles.Deck_Item} onPress={navigateToDeck}>
 
-  })
+        <Text>{item.title}</Text>
 
-  function mapStateToProps(storeState){
+    </TouchableOpacity>
 
-    return{
+}
+
+class HomeView extends React.Component {
+
+    render() {
+
+        let { navigateToDeck, decks } = this.props.route.params
+
+        return <View>
+
+            <Text>This is Home Screen</Text>
+
+            <Text>{JSON.stringify(decks)}</Text>
+
+            {/* <Button onPress={() => navigation.navigate('Details')} title={'Go To Settings'} /> */}
+
+
+            <FlatList data={decks} renderItem={({ item }) => (<Deck_Item item={item} navigateToDeck={navigateToDeck} />)} style={styles.DeckList} />
+
+
+
+        </View>
+
+    }
+
+}
+
+const styles = StyleSheet.create({
+
+    container: {
+
+        fontSize: 24,
+        flex: 1,
+
+
+    },
+
+    DeckList: {
+
+
+    },
+
+    Deck_Item: {
+        marginVertical: 10,
+        padding: 10,
+        backgroundColor: '#AAA',
+        borderColor: '#000',
+        borderWidth: 1,
+        borderStyle: 'solid',
+    }
+
+})
+
+function mapStateToProps(storeState) {
+
+    return {
         storeState
     }
 
-  }
+}
 
-  export default connect(mapStateToProps)(HomeComponent)
+export default connect(mapStateToProps)(HomeComponent)
