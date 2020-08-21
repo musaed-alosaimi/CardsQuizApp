@@ -1,21 +1,27 @@
-import {SHOW_CARDS_ACTION, ADD_CARD_ACTION, DELETE_CARD_ACTION} from '../actions/ActionConstatns'
+import {RETRIEVE_CARDS_ACTION, ADD_CARD_ACTION, DELETE_CARD_ACTION} from '../actions/ActionConstatns'
 
 export function CardsReducer(state = [], action){
 
-    if(action.type === SHOW_CARDS_ACTION){
+    let newState = {...state}
 
-        return {...state, ...action.cards}
+    if(action.type === RETRIEVE_CARDS_ACTION){
+
+        newState = {...state, ...action.cards}
+
+        return newState
 
     }else if(action.type === ADD_CARD_ACTION){
 
-        return {...state, [action.newCard.id]: action.newCard}
+        newState = {...state, [action.newCard.id]: action.newCard}
+
+        return newState
 
     }else if(action.type === DELETE_CARD_ACTION){
 
 
     }else{
 
-        return state
+        return newState
 
     }
 

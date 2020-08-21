@@ -4,11 +4,16 @@ import { createStackNavigator } from '@react-navigation/stack'
 import DetailsComponent from './DetailsComponent'
 import DeckComponent from './DeckComponent'
 import { connect } from 'react-redux'
+import HomeView from '../views/HomeView'
 
 
 const Stack = createStackNavigator();
 
 class HomeComponent extends React.Component {
+
+    componentDidMount(){
+
+    }
 
     render() {
 
@@ -20,11 +25,14 @@ class HomeComponent extends React.Component {
 
         }
 
+        console.log(this.props.storeState.decks)
+
         return <View style={styles.container}>
+
 
             <Stack.Navigator>
 
-                <Stack.Screen name="Home" component={HomeView} initialParams={{ navigateToDeck, decks: this.props.storeState.decks }} />
+                <Stack.Screen name="Home" component={HomeView} initialParams={{ navigateToDeck }} />
                 <Stack.Screen name="Deck" component={DeckComponent} />
 
             </Stack.Navigator>
@@ -65,43 +73,6 @@ class HomeComponent extends React.Component {
 }
 
 
-const Deck_Item = (props) => {
-
-
-    let { item, navigateToDeck } = props
-
-    return <TouchableOpacity key={item.id} style={styles.Deck_Item} onPress={navigateToDeck}>
-
-        <Text>{item.title}</Text>
-
-    </TouchableOpacity>
-
-}
-
-class HomeView extends React.Component {
-
-    render() {
-
-        let { navigateToDeck, decks } = this.props.route.params
-
-        return <View>
-
-            <Text>This is Home Screen</Text>
-
-            <Text>{JSON.stringify(decks)}</Text>
-
-            {/* <Button onPress={() => navigation.navigate('Details')} title={'Go To Settings'} /> */}
-
-
-            <FlatList data={decks} renderItem={({ item }) => (<Deck_Item item={item} navigateToDeck={navigateToDeck} />)} style={styles.DeckList} />
-
-
-
-        </View>
-
-    }
-
-}
 
 const styles = StyleSheet.create({
 
@@ -113,23 +84,9 @@ const styles = StyleSheet.create({
 
     },
 
-    DeckList: {
-
-
-    },
-
-    Deck_Item: {
-        marginVertical: 10,
-        padding: 10,
-        backgroundColor: '#AAA',
-        borderColor: '#000',
-        borderWidth: 1,
-        borderStyle: 'solid',
-    }
-
 })
 
-function mapStateToProps(storeState) {
+const mapStateToProps = (storeState) => {
 
     return {
         storeState

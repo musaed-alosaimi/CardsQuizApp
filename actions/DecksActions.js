@@ -1,10 +1,10 @@
-import {SHOW_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from './ActionConstatns'
+import {RETRIEVE_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from './ActionConstatns'
 
 
 export function ShowDecks(decks){
 
     return {
-        type: SHOW_DECKS_ACTION,
+        type: RETRIEVE_DECKS_ACTION,
         decks
     }
 

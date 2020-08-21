@@ -1,26 +1,24 @@
-import {SHOW_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from '../actions/ActionConstatns'
+import {RETRIEVE_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from '../actions/ActionConstatns'
 
-export function DecksReducer(state = [], action){
+export function DecksReducer(state = {}, action){
 
-    if(action.type === SHOW_DECKS_ACTION){
+    let newState = {...state}
 
-        return {...state, ...action.decks}
+    if(action.type === RETRIEVE_DECKS_ACTION){
+
+        newState = {...state,  ...action.decks}
 
     }else if(action.type === ADD_DECK_ACTION){
 
-        let newState = state
-
-        newState = {...state, [action.newDeck.id]: action.newDeck}
-
-        return newState
+        newState = {...state,  [action.newDeck.id]: action.newDeck}
 
     }else if(action.type === DELETE_DECK_ACTION){
 
-    }else{
-
-        return state
 
     }
+    
+    return newState
+
 
 
 
