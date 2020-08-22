@@ -18,6 +18,9 @@ export function CardsReducer(state = [], action){
 
     }else if(action.type === DELETE_CARD_ACTION){
 
+        newState = newState.filter((card) => card.id !== action.id)
+
+        return newState
 
     }else{
 

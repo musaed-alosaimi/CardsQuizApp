@@ -1,7 +1,7 @@
 import {RETRIEVE_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from './ActionConstatns'
 
 
-export function ShowDecks(decks){
+export function RetrieveDecks(decks){
 
     return {
         type: RETRIEVE_DECKS_ACTION,
@@ -21,7 +21,7 @@ export function AddDeck(newDeck){
 
 }
 
-export function DeleteDeck(decks){
+export function DeleteDeck(id){
 
     return {
         type: DELETE_DECK_ACTION,

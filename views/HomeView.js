@@ -2,28 +2,30 @@ import React from 'react'
 import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { connect } from 'react-redux'
-
+import DeckItem from './DeckItem'
 
 class HomeView extends React.Component {
 
+    navigateToDeck = (item_id) => {
+
+        this.props.navigation.navigate('Deck', { item_id });
+
+    }
+
     render() {
 
-        let { navigateToDeck } = this.props.route.params
+        let { decks, cards } = this.props.storeState
 
-        let {decks, cards} = this.props.storeState
+        return <View style={{ flex: 1, padding: 25, }}>
 
-        console.log(decks)
+            {Object.keys(decks).length === 0 && <Text style={{fontSize: 24, textAlign: 'center', marginTop: 30, }}>There is no decks.</Text>}
 
-        return <View>
-
-            <Text>This is Home Screen</Text>
-
-            <Text>{JSON.stringify(decks)}</Text>
+            {/* {JSON.stringify(decks)} */}
 
             {/* <Button onPress={() => navigation.navigate('Details')} title={'Go To Settings'} /> */}
 
 
-            <FlatList data={decks} renderItem={({ item }) => (<Deck_Item item={item} navigateToDeck={navigateToDeck} />)} style={styles.DeckList} />
+            <FlatList data={Object.keys(decks)} keyExtractor={(item) => item} renderItem={({ item }) => (<DeckItem key={item} item={item} navigateToDeck={this.navigateToDeck} />)} style={styles.DeckList} />
 
 
 
@@ -33,22 +35,10 @@ class HomeView extends React.Component {
 
 }
 
-const Deck_Item = (props) => {
-
-
-    let { item, navigateToDeck } = props
-
-    return <TouchableOpacity key={item.id} style={styles.Deck_Item} onPress={navigateToDeck}>
-
-        <Text>{item.title}</Text>
-
-    </TouchableOpacity>
-
-}
-
 const styles = StyleSheet.create({
     DeckList: {
 
+        flex: 1,
 
     },
 
@@ -62,11 +52,11 @@ const styles = StyleSheet.create({
     }
 })
 
-mapStateToProps = (storeState) => {
+function mapStateToProps(storeState) {
 
     return {
         storeState
     }
 }
 
-export default connect(mapStateToProps)(HomeView)
+export default connect(mapStateToProps, null)(HomeView)

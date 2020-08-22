@@ -3,21 +3,15 @@ import {View, Text, TextInput, StyleSheet, TouchableOpacity, Button} from 'react
 import {createStackNavigator} from '@react-navigation/stack'
 import HomeComponent from './HomeComponent'
 import { connect } from 'react-redux';
-import {AddDeck} from '../actions/DecksActions'
-import {generateId} from '../helper/helper' 
+import AddDeckView from '../views/AddDeckView'
 
+var abc = ''
 
 const Stack = createStackNavigator();
 
 class AddDeckComponent extends React.Component{
 
-addDeck = () => {
 
-this.props.dispatch(AddDeck({id: generateId(), title: this.state.DeckTitle}))
-
-console.log(this.props.storeState)
-
-}
 
     render(){
 
@@ -26,7 +20,7 @@ console.log(this.props.storeState)
 
         <Stack.Navigator>
 
-  <Stack.Screen name="AddDeck" component={DeckView}  />
+  <Stack.Screen name="AddDeck" component={AddDeckView}  />
   <Stack.Screen name="Home" component={HomeComponent} />
 
   </Stack.Navigator>
@@ -38,28 +32,7 @@ console.log(this.props.storeState)
   }
   
 
-  class DeckView extends React.Component{
 
-
-    state = {
-      DeckTitle: '',
-    }
-    
-    render(){
-
-    return <View>
-            <Text style={styles.label}>What is the title of you new deck ?</Text>
-  
-  
-    <TextInput placeholder="Deck Title" style={styles.textInput} value={this.state.DeckTitle} onChangeText={(text) => this.setState({DeckTitle: text})} />
-  
-    <TouchableOpacity title="Add Deck" style={styles.addDeckButton} onPress={this.addDeck} ><Text style={{color:'#fff'}}>Add Deck Button</Text></TouchableOpacity>
-  
-    </View>
-
-    }
-  
-      }
 
   const styles = StyleSheet.create({
 

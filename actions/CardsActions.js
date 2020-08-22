@@ -1,24 +1,24 @@
-import {ADD_CARD_ACTION, SHOW_CARDS_ACTION, DELETE_DECK_ACTION} from './ActionConstatns'
+import {ADD_CARD_ACTION, RETRIEVE_CARDS_ACTION, DELETE_DECK_ACTION} from './ActionConstatns'
 
-export function ShowCards(cards){
+export function RetrieveCards(cards){
 
     return {
-        type: SHOW_CARDS_ACTION,
+        type: RETRIEVE_CARDS_ACTION,
         cards
     }
     
 }
 
-export function AddCard(card){
+export function AddCard(newCard){
 
     return {
         type: ADD_CARD_ACTION,
-        card
+        newCard
     }
 
 }
 
-export function DeleteCard(card){
+export function DeleteCard(id){
 
     return {
         type: DELETE_CARD_ACTION,

@@ -1,6 +1,6 @@
 import {RETRIEVE_DECKS_ACTION, ADD_DECK_ACTION, DELETE_DECK_ACTION} from '../actions/ActionConstatns'
 
-export function DecksReducer(state = {}, action){
+export function DecksReducer(state = [], action){
 
     let newState = {...state}
 
@@ -14,12 +14,17 @@ export function DecksReducer(state = {}, action){
 
     }else if(action.type === DELETE_DECK_ACTION){
 
+        newState = Object.keys(newState).map((deck_id) => {
+
+            if(deck_id !== action.id){
+                return newState[deck_id]
+            }
+
+        })
 
     }
     
     return newState
-
-
 
 
 }

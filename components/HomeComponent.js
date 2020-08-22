@@ -5,6 +5,9 @@ import DetailsComponent from './DetailsComponent'
 import DeckComponent from './DeckComponent'
 import { connect } from 'react-redux'
 import HomeView from '../views/HomeView'
+import AddCardComponent from './AddCardComponent'
+import QuizComponent from './QuizComponent'
+import ResultComponent from './ResultComponent'
 
 
 const Stack = createStackNavigator();
@@ -19,51 +22,18 @@ class HomeComponent extends React.Component {
 
         let { navigation } = this.props
 
-        const navigateToDeck = () => {
-
-            navigation.navigate('Deck', { title: 'Settings' });
-
-        }
-
-        console.log(this.props.storeState.decks)
-
         return <View style={styles.container}>
 
 
             <Stack.Navigator>
 
-                <Stack.Screen name="Home" component={HomeView} initialParams={{ navigateToDeck }} />
+                <Stack.Screen name="Home" component={HomeView}  />
                 <Stack.Screen name="Deck" component={DeckComponent} />
+                <Stack.Screen name="AddCard" component={AddCardComponent} />
+                <Stack.Screen name="Quiz" component={QuizComponent} />
+                <Stack.Screen name="QuizResult" component={ResultComponent} />
 
             </Stack.Navigator>
-
-
-
-            {/* <Stack.Navigator initialRouteName="Home" headerMode="screen" screenOptions={{
-        header: ({ scene, previous, navigation }) => {
-  const { options } = scene.descriptor;
-  const title =
-    options.headerTitle !== undefined
-      ? options.headerTitle
-      : options.title !== undefined
-      ? options.title
-      : scene.route.name;
-
-  return ( 
-    <View style={{height: 100, backgroundColor: '#CCC',}}>
-      <Text>{title}</Text> 
-      
-      
-        {previous ? <Button onPress={navigation.goBack} style={{backgroundColor: 'red',color: 'black'}} title={'Back'} /> : undefined}
-      
-    
-    </View>
-  );
-},
-}}>
-        <Stack.Screen name="AddDeckComponent" component={AddDeckComponent} />
-        <Stack.Screen name="Details" component={DetailsComponent} />
-      </Stack.Navigator> */}
 
 
         </View>

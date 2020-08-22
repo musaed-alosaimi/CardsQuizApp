@@ -35,8 +35,10 @@ class App extends React.Component {
             screenOptions={({ route }) => ({
                 tabBarIcon: ({ focused, color, size }) => {
               let iconName;
+              color = '#36a5c7'
               if (route.name === 'Home') {
                   iconName = focused
+
                   ? 'ios-home'
                   : 'md-home';
                 } else if (route.name === 'AddDeck') {
@@ -49,7 +51,7 @@ class App extends React.Component {
             },
           })}
       tabBarOptions={{
-          activeTintColor: 'tomato',
+          activeTintColor: '#36a5c7',
           inactiveTintColor: 'gray',
           }}>
               <Tab.Screen name="Home" component={HomeComponent} />
