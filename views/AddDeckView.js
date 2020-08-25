@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Button } from 'react-native'
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux';
 import { AddDeck } from '../actions/DecksActions'
 import { generateId } from '../helper/helper'

@@ -1,6 +1,5 @@
 import React from 'react'
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
-import { createStackNavigator } from '@react-navigation/stack'
+import { View, Text, StyleSheet, FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import DeckItem from './DeckItem'
 

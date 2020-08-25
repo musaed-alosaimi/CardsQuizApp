@@ -1,15 +1,14 @@
 //Your final app.js with stack navigator and tab navigator
-import React,{createContext} from 'react';
-import { Button, Text, View, TouchableOpacity, Platform } from 'react-native';
+import React from 'react';
+import { Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import HomeComponent from './components/HomeComponent'
 import AddDeckComponent from './components/AddDeckComponent'
-import {createStore, applyMiddleware, combineReducers} from 'redux'
-import {connect, Provider} from 'react-redux'
+import {createStore, combineReducers} from 'redux'
+import { Provider } from 'react-redux'
 import {DecksReducer} from './reducers/DecksReducer'
 import {CardsReducer} from './reducers/CardsReducer'
 import {setLocalNotification, clearLocalNotification} from './helper/helper'
@@ -22,14 +21,15 @@ class App extends React.Component {
 
   componentDidMount(){
 
+    setLocalNotification()
+
   }
 
     render(){
 
       return (
-        <Provider store={store}>
-          <TouchableOpacity onPress={() => setLocalNotification()} style={{padding: 30,}}><Text>Set Notification</Text></TouchableOpacity>
-          <TouchableOpacity onPress={() => clearLocalNotification()} ><Text>Clear Notification</Text></TouchableOpacity>
+        <Provider store={store}> 
+
           <NavigationContainer>
             <Tab.Navigator
             screenOptions={({ route }) => ({

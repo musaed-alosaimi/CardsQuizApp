@@ -14,52 +14,37 @@ export function clearLocalNotification() {
     .then(Notifications.cancelAllScheduledNotificationsAsync)
 }
 
-function createNotification() {
-  return {
-    title: 'Log your stats!',
-    body: "👋 You didn't take any quiz today !",
-    ios: {
-      sound: true,
-    },
-    android: {
-      sound: true,
-      priority: 'high',
-      sticky: false,
-      vibrate: true,
-    }
-  }
-}
-
 export function setLocalNotification () {
 
   AsyncStorage.getItem(NOTIFICATION_KEY)
     .then(JSON.parse)
     .then((data) => {
-      console.log(data)
+
       if (data === null) {
         Permissions.askAsync(Permissions.NOTIFICATIONS)
-          .then(({ status }) => {
-            console.log(status)
+          .then(async ({ status }) => {
+
             if (status === 'granted') {
               
               Notifications.cancelAllScheduledNotificationsAsync()
 
               let tomorrow = new Date()
-              tomorrow.setDate(tomorrow.getDate())
-              tomorrow.setHours(18)
-              tomorrow.setMinutes(19)
+              tomorrow.setDate(tomorrow.getDate() + 1)
+              tomorrow.setHours(20)
+              tomorrow.setMinutes(0)
 
-              Notifications.scheduleLocalNotificationAsync(
-                createNotification(),
-                {
-                  time: tomorrow,
-                  repeat: 'day',
-                }
-              )
+              Notifications.scheduleNotificationAsync({
+                content: {
+                  title: "Let's take a quiz !",
+                  body: "👋 You didn't take any quiz today",
+                  data: { data: "goes here" },
+                },
+                trigger: { seconds: (tomorrow.getTime() - Date.now())/1000 },
+              });
 
               AsyncStorage.setItem(NOTIFICATION_KEY, JSON.stringify(true))
             }else{
-              throw new Error('Notification permission not granted');
+              
             }
           })
           

@@ -1,7 +1,6 @@
 import React from 'react'
-import { View, Text, Button, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { createStackNavigator } from '@react-navigation/stack'
-import DetailsComponent from './DetailsComponent'
 import DeckComponent from './DeckComponent'
 import { connect } from 'react-redux'
 import HomeView from '../views/HomeView'
@@ -13,10 +12,6 @@ import ResultComponent from './ResultComponent'
 const Stack = createStackNavigator();
 
 class HomeComponent extends React.Component {
-
-    componentDidMount(){
-
-    }
 
     render() {
 
@@ -48,7 +43,6 @@ const styles = StyleSheet.create({
 
     container: {
 
-        fontSize: 24,
         flex: 1,
 
 

@@ -1,5 +1,5 @@
 import React from 'react'
-import { View, Text, TouchableOpacity, StyleSheet, ScrollView, TextInput } from 'react-native'
+import { View, Text, TouchableOpacity, ScrollView } from 'react-native'
 import { connect } from 'react-redux'
 
 class QuizComponent extends React.Component {
@@ -40,7 +40,6 @@ class QuizComponent extends React.Component {
             return <View><Text style={{ fontSize: 24, textAlign: 'center', margin: 30, }} >There is no cards added yet .</Text></View>
         }
 
-        console.log(this.state.counter + ' ' + deckCards.length)
 
         if (this.state.counter === deckCards.length) {
 
