@@ -1,8 +1,15 @@
 import React from 'react'
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { View, Text, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
+import { clearLocalNotification, setLocalNotification } from '../helper/helper'
 
 class ResultComponent extends React.Component {
+
+    componentDidMount(){
+
+        clearLocalNotification().then(setLocalNotification)
+        
+    }
 
     cardsNumber(item) {
 

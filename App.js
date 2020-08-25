@@ -1,20 +1,20 @@
 //Your final app.js with stack navigator and tab navigator
 import React,{createContext} from 'react';
-import { Button, Text, View } from 'react-native';
+import { Button, Text, View, TouchableOpacity, Platform } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { Ionicons } from '@expo/vector-icons';
 import HomeComponent from './components/HomeComponent'
 import AddDeckComponent from './components/AddDeckComponent'
-import DetailsComponent from './components/DetailsComponent'
 import {createStore, applyMiddleware, combineReducers} from 'redux'
 import {connect, Provider} from 'react-redux'
 import {DecksReducer} from './reducers/DecksReducer'
 import {CardsReducer} from './reducers/CardsReducer'
+import {setLocalNotification, clearLocalNotification} from './helper/helper'
 
-
-const Tab = createBottomTabNavigator();
+const Tab = Platform.OS === 'ios' ? createBottomTabNavigator() : createMaterialTopTabNavigator();
 
 let store = createStore(combineReducers({decks: DecksReducer, cards: CardsReducer}))
 
@@ -22,14 +22,14 @@ class App extends React.Component {
 
   componentDidMount(){
 
-    store.subscribe(() => this.forceUpdate())
-
   }
 
     render(){
 
       return (
         <Provider store={store}>
+          <TouchableOpacity onPress={() => setLocalNotification()} style={{padding: 30,}}><Text>Set Notification</Text></TouchableOpacity>
+          <TouchableOpacity onPress={() => clearLocalNotification()} ><Text>Clear Notification</Text></TouchableOpacity>
           <NavigationContainer>
             <Tab.Navigator
             screenOptions={({ route }) => ({
