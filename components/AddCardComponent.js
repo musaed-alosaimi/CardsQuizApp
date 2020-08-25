@@ -20,7 +20,7 @@ class AddCardComponent extends React.Component {
         // dispatch
         this.props.dispatch(AddCard({ id: generateId(), question: this.state.question, answer: this.state.answer, deck_id}))
 
-        this.setState({ isQuestionAdded: true });
+        this.setState({ isQuestionAdded: true, question: '', answer: '', });
 
         this.question = this.state.question
 

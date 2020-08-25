@@ -12,7 +12,6 @@ const Stack = createStackNavigator();
 class AddDeckComponent extends React.Component{
 
 
-
     render(){
 
       return <View style={styles.container}>

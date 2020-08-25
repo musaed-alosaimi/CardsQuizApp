@@ -17,7 +17,7 @@ class AddDeckView extends React.Component {
     addDeck = () => {
 
         this.props.dispatch(AddDeck({ id: generateId(), title: this.state.DeckTitle }))
-        this.setState({isDeckAdded: true, })
+        this.setState({isDeckAdded: true, DeckTitle: '', })
         this.deckTitle = this.state.DeckTitle
 
     }
@@ -29,7 +29,7 @@ class AddDeckView extends React.Component {
 
             <TextInput placeholder="Type Deck Title .." style={styles.textInput} value={this.state.DeckTitle} onChangeText={(text) => this.setState({ DeckTitle: text })} />
 
-            <TouchableOpacity title="Add Deck" style={styles.addDeckButton} onPress={this.addDeck} ><Text style={{ color: '#fff' }}>Add Deck Button</Text></TouchableOpacity>
+            <TouchableOpacity title="Add Deck" style={styles.addDeckButton} onPress={this.addDeck} ><Text style={{ color: '#fff' }}>Add Deck</Text></TouchableOpacity>
 
             {this.state.isDeckAdded && <Text style={{fontSize: 24, textAlign: 'center', color: 'green', }} >{'The deck with title ' + this.deckTitle + ' is added'}</Text>}
 

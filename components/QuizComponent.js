@@ -5,117 +5,63 @@ import { connect } from 'react-redux'
 class QuizComponent extends React.Component {
 
     state = {
-        answers: {
-
-        }
+        correct_answers: 0,
+        counter: 0,
+        show_answer: false,
     }
 
-    answerChangeText = (text, card_id) => {
 
-        this.setState((previousState) => (
-            {
-                ...previousState,
-                answers: {
-                    ...previousState.answers,
-                    [card_id]: { ...previousState.answers[card_id], answer: text }
-                }
-            }
-        ))
+    SubmitAnswer = (answer) => {
+
+        if (answer === 'correct') {
+            this.setState((previousState) => ({ ...previousState, correct_answers: previousState.correct_answers + 1, }))
+        }
+
+        this.setState((previousState) => ({ ...previousState, counter: previousState.counter + 1, show_answer: false, }))
+
 
     }
 
-    componentWillMount() {
+    ShowAnswer = () => {
 
-        let { cards } = this.props.storeState
+        this.setState((previousState) => ({ ...previousState, show_answer: true, }))
 
-            Object.keys(cards).map((card_id) => {
-
-                this.setState((previousState) => (
-                    {
-                        ...previousState,
-                        answers: { ...previousState.answers, [card_id]: { answer: '' } }
-                    }
-
-                ))
-
-            })
-
-        }
-
-
-        SubmitAnswer = (deck_id) => {
-
-            let correct_answers = 0
-            let answers = []
-
-            Object.keys(this.state.answers).map((card_id) => {
-
-                let state_answer = this.state.answers[card_id].answer
-                let store_answer = this.props.storeState.cards[card_id].answer
-
-                if(state_answer === store_answer){
-
-                    correct_answers++
-                }
-
-                answers.push(state_answer)
-
-            })
-
-            let resultObj = {
-                correct_answers,
-                answers,
-                deck_id,
-
-            }
-
-            this.props.navigation.navigate('QuizResult', {result: {...resultObj}})
-
-        }
+    }
 
     render() {
 
-        let { storeState, navigation, route } = this.props
+        let { route } = this.props
 
-        let { deck_id } = route.params
+        let { deck_id, deckCards } = route.params
 
-        let {cards} = storeState
+        let cardsLength = deckCards.length
 
-        let cardsKeys = Object.keys(cards)
-
-        let cardsLength = 0
-
-        cardsKeys.map((card_id) => {
-            if(cards[card_id].deck_id === deck_id){
-                cardsLength++
-            }
-        })
-
-        if(cardsLength === 0){
-            return <View><Text style={{fontSize: 24, textAlign: 'center', margin: 30,}} >There is no cards added yet .</Text></View>
+        if (cardsLength === 0) {
+            return <View><Text style={{ fontSize: 24, textAlign: 'center', margin: 30, }} >There is no cards added yet .</Text></View>
         }
 
+        console.log(this.state.counter + ' ' + deckCards.length)
+
+        if (this.state.counter === deckCards.length) {
+
+            this.props.navigation.pop()
+            this.props.navigation.navigate('QuizResult', { result: { correctAnswersCount: this.state.correct_answers, deck_id, deckCards } })
+
+            return <View></View>
+
+        }
         return <ScrollView style={{ flex: 1, padding: 10, }}>
 
-            {cardsKeys.map((card_id) => {
+                <Text style={styles.row}>Progress: {(this.state.counter + 1) + ' / ' + cardsLength}</Text>
 
-                if(cards[card_id].deck_id !== deck_id){
-                    return
-                }
+                <Text style={styles.row}>{deckCards[this.state.counter].question}</Text>
 
-                return <View key={card_id}>
+                {!this.state.show_answer && <TouchableOpacity onPress={() => this.ShowAnswer()}><Text style={styles.showAnswerButton}>Show Answer</Text></TouchableOpacity>}
+                <Text style={styles.answer} >{this.state.show_answer && deckCards[this.state.counter].answer}</Text>
 
-                    <Text>{cards[card_id].question}</Text>
+                <TouchableOpacity style={{...styles.answerButton,backgroundColor: 'green'}} onPress={() => this.SubmitAnswer('correct')}><Text style={{ color: '#FFF', }}>Mark as correct</Text></TouchableOpacity>
+                <TouchableOpacity style={{...styles.answerButton,backgroundColor: 'red'}} onPress={() => this.SubmitAnswer('incorrect')}><Text style={{ color: '#FFF', }}>Mark as incorrect</Text></TouchableOpacity>
 
-                    <TextInput style={styles.TextInput} placeholder='Write your answer ..' value={this.state.answers[card_id].answer} onChangeText={(text) => this.answerChangeText(text, card_id)}></TextInput>
-
-                    <Text>{this.state.answers[card_id].answer}</Text>
-
-                </View>
-
-            })}
-
-            <TouchableOpacity style={styles.answerButton} onPress={() => this.SubmitAnswer(deck_id)}><Text style={{ color: '#FFF', }}>Submit Answer</Text></TouchableOpacity>
 
         </ScrollView>
 
@@ -124,18 +70,6 @@ class QuizComponent extends React.Component {
 
 const styles = {
 
-    TextInput: {
-
-        backgroundColor: '#EEE',
-        borderStyle: 'solid',
-        borderColor: '#555',
-        borderWidth: 1,
-        padding: 10,
-        borderRadius: 10,
-        marginVertical: 10,
-        fontSize: 18,
-    },
-
     answerButton: {
 
         padding: 10,
@@ -143,6 +77,24 @@ const styles = {
         backgroundColor: '#555555',
         alignItems: 'center',
 
+    },
+
+    showAnswerButton: {
+        color: '#007AFF',
+        fontSize: 18,
+        textAlign: 'center',
+    },
+
+    answer: {
+        textAlign: 'center',
+        fontSize: 18,
+        marginVertical: 10,
+    },
+
+    row: {
+        textAlign: 'center',
+        marginVertical: 20,
+        fontSize: 18,
     }
 
 }

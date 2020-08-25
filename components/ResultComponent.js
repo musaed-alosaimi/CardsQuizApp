@@ -1,16 +1,40 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { connect } from 'react-redux'
 
 class ResultComponent extends React.Component {
+
+    cardsNumber(item) {
+
+        let count = 0
+
+        let { cards } = this.props.storeState
+
+        Object.keys(cards).map((key) => {
+
+            let card = cards[key]
+
+            if (card.deck_id === item) {
+
+                count++
+
+            }
+
+        })
+
+        return count
+
+    }
 
     render() {
 
         let { navigation, route, storeState } = this.props
 
-        let {cards} = storeState
+        let { cards } = storeState
 
         let { result } = route.params
+
+        let {deck_id, deckCards, correctAnswersCount} = result
 
         let cardsNum = 0
 
@@ -22,23 +46,13 @@ class ResultComponent extends React.Component {
 
         })
 
-        return <View style={{padding: 10,}}>
+        return <View style={{ padding: 10, }}>
 
-            <Text>{result.correct_answers + ' / ' + cardsNum}</Text>
+            <Text style={styles.row}>You Completed The Quiz !</Text>
+            <Text style={styles.row}>Your Score is {correctAnswersCount} out of {this.cardsNumber(deck_id)}</Text>
 
-            {Object.keys(cards).map((card_id, index) => {
-
-                return <View key={card_id} style={styles.card}>
-
-                    <Text>{cards[card_id].question}</Text>
-
-            <Text>My Answer: {result.answers[index]}</Text>
-
-            <Text>Correct Answer: {cards[card_id].answer}</Text>
-
-                </View>
-
-            })}
+            <TouchableOpacity onPress={() => navigation.navigate('Quiz', { deck_id, deckCards })}><Text style={styles.repeatQuizButton}>Repeat Quiz</Text></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigation.pop()}><Text style={styles.repeatQuizButton}>Back To Deck</Text></TouchableOpacity>
 
         </View>
     }
@@ -57,6 +71,19 @@ const styles = {
         marginVertical: 10,
         fontSize: 18,
     },
+    repeatQuizButton: {
+        color: '#007AFF',
+        fontSize: 18,
+        textAlign: 'center',
+        marginVertical: 15,
+    },
+
+    row: {
+        textAlign: 'center',
+        marginVertical: 20,
+        fontSize: 18,
+    }
+
 }
 
 function mapStateToProps(storeState) {
